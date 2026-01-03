@@ -1,5 +1,56 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
+
+<script src="https://game-cdn.poki.com/scripts/v2/poki-sdk.js"></script>
+<script>
+  window.PokiReady = false;
+
+  PokiSDK.init().then(() => {
+    window.PokiReady = true;
+    // Optionnel : tu peux signaler “prêt” à Godot via variable globale
+  }).catch(() => {
+    window.PokiReady = false;
+  });
+</script>
+
+<script>
+  // Events de loading
+  window.poki_gameLoadingStart = function () {
+    if (window.PokiReady && window.PokiSDK) PokiSDK.gameLoadingStart();
+  };
+
+  window.poki_gameLoadingFinished = function () {
+    if (window.PokiReady && window.PokiSDK) PokiSDK.gameLoadingFinished();
+  };
+
+  // Events gameplay
+  window.poki_gameplayStart = function () {
+    if (window.PokiReady && window.PokiSDK) PokiSDK.gameplayStart();
+  };
+
+  window.poki_gameplayStop = function () {
+    if (window.PokiReady && window.PokiSDK) PokiSDK.gameplayStop();
+  };
+
+  // Ads (avec résultat stocké pour que Godot puisse “poll”)
+  window.poki_lastRewardedResult = 0; // 0=none, 1=success, -1=fail
+
+  window.poki_commercialBreak = function () {
+    if (!(window.PokiReady && window.PokiSDK)) return;
+    PokiSDK.commercialBreak();
+  };
+
+  window.poki_rewardedBreak = function () {
+    window.poki_lastRewardedResult = 0;
+    if (!(window.PokiReady && window.PokiSDK)) { window.poki_lastRewardedResult = -1; return; }
+
+    PokiSDK.rewardedBreak().then(
+      (success) => { window.poki_lastRewardedResult = success ? 1 : -1; },
+      ()        => { window.poki_lastRewardedResult = -1; }
+    );
+  };
+</script>
+
 <head>
 	<meta charset='utf-8' />
 	<meta name='viewport' content='width=device-width, user-scalable=no' />
@@ -139,7 +190,7 @@
 	<script type='text/javascript' src='index.js'></script>
 	<script type='text/javascript'>//<![CDATA[
 
-		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":2604384,"index.wasm":17865444},"focusCanvas":true,"gdnativeLibs":[]};
+		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":2604432,"index.wasm":17865444},"focusCanvas":true,"gdnativeLibs":[]};
 		var engine = new Engine(GODOT_CONFIG);
 
 		(function() {
@@ -245,4 +296,5 @@
 	//]]></script>
 </body>
 </html>
+
 
