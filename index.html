@@ -57,24 +57,26 @@
 	<title>JeuxDeSocieteCarte</title>
 	<style type='text/css'>
 
-		body {
-			touch-action: none;
-			margin: 0;
-			border: 0 none;
-			padding: 0;
-			text-align: center;
-			background-color: black;
-		}
+    html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: black;
+    }
 
-		#canvas {
-			display: block;
-			margin: 0;
-			color: white;
-		}
+    body {
+    touch-action: none;
+}
 
-		#canvas:focus {
-			outline: none;
-		}
+   #canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    outline: none;
+}
+
 
 		.godot {
 			font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
